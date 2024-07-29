@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="shortcut icon" href="/LoginPageSF-main/search.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/LoginPageSF-main/styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 id="UM" class="mb-4">User Details</h2>
+        <button id="addUserBtn" class="btn btn-success mb-3" onclick="openUserModal()">Add New User</button>
+        <button id="logoutBtn" class="btn btn-warning mb-3 ml-3" onclick="logout()">Logout</button>
+        <table class="table table-bordered">
+            <thead class="Head">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- User rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal" id="userModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title lg" id="userModalLabel"><h1>Add User</h1></h5>
+                    <button type="button" class="close" onclick="closeUserModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <div class="form-group">
+                            <label for="userName">Name</label>
+                            <input type="text" id="userName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userEmail">Email</label>
+                            <input type="email" id="userEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userMobile">Mobile</label>
+                            <input type="text" id="userMobile" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userStatus">Status</label>
+                            <select id="userStatus" class="form-control" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="userDetailsModal" >
+        <h2>User Details</h2>
+        <p><strong>Name:</strong> <span id="detailUserName"></span></p>
+        <p><strong>Email:</strong> <span id="detailUserEmail"></span></p>
+        <p><strong>Mobile:</strong> <span id="detailUserMobile"></span></p>
+        <p><strong>Status:</strong> <span id="detailUserStatus"></span></p>
+        <button class="btn btn-primary"  onclick="closeUserDetailsModal()">Close</button>
+    </div>
+    
+    <script src="/LoginPageSF-main/user.js"></script>
+</body>
+</html>

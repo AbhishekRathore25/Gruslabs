@@ -1,0 +1,91 @@
+
+
+.card {
+    margin-top: 50px;
+    background: rgba(255, 255, 255, 0.8); }
+
+.table {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+#userDetailsModal {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #8e9eab;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    padding: 20px;
+    width: 400px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    z-index: 1000; 
+
+}
+
+.modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    
+    transform: translate(-50%, -50%);
+}
+
+.modal-content {
+    position: relative;
+    background: rgba(255, 255, 255, 0.9); }
+
+.modal-header .close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+}
+
+#UM{
+    margin-left: 40%;
+}
+.modal-body{
+    width: 100%;
+    height: 100%;
+      
+    background-color:  #00203FFF;
+    color: #ADEFD1FF;
+    font-weight :bold;
+    
+}
+body {
+    background: url(/LoginPageSF-main/skyscraper.jpg) no-repeat center center fixed; 
+    background-size: cover;
+    margin: 0;
+    padding: 0; 
+    height: 100%; 
+    font-family: Arial, sans-serif; 
+
+}
+
+.Bg{
+    width: 100%;
+    height: 100%;
+
+}
+.lg{
+    text-align: center;
+   font-style: italic;
+}
+.Head{
+    background-color:  #2F3C7E;
+    color: #FBEAEB;
+    text-align: center;
+}
+#userTableBody{
+    background-color:  #00203FFF;
+    color: #ADEFD1FF;
+    font-weight :400;
+    text-align: center;
+
+}
