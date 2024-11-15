@@ -77,6 +77,31 @@
                     <div class="cart-total">
                         <strong>Total Amount:</strong> ₹{cartTotal}
                     </div>
+                                 
+                                        <lightning-input 
+                                            label="Discount Code" 
+                                            value={discountCode} 
+                                            onchange={handleDiscountCodeChange} 
+                                            placeholder="Enter code (e.g., GRUS10)">
+                                        </lightning-input>
+                                        
+                                        <lightning-button 
+                                            label="Apply Discount" 
+                                            onclick={applyDiscount}
+                                            class="apply-discount-button">
+                                        </lightning-button>
+                                         <template if:false={discountPercentage}>
+                                            <div class="discounted-total">
+                                                <strong>Coupon Code</strong>
+                                            </div>
+                                        </template>
+                                        <!-- Display discounted total if applicable -->
+                                        <template if:true={discountPercentage}>
+                                            <div class="discounted-total">
+                                                <strong>Discounted Total ({discountPercentage}% off):</strong> ₹{discountedTotal}
+                                            </div>
+                                        </template>
+                                    
                 </template>
 
                 <template if:false={cartItems.length}>
@@ -138,4 +163,3 @@
     </template>
 
 </template>
-
