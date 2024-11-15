@@ -1,0 +1,141 @@
+<template>
+    <header class="navbar">
+        <div class="logo">
+            <a href="https://gruslabs6-dev-ed.develop.my.site.com/grusdelights/#">
+                <img src="https://gruslabs6-dev-ed.develop.my.salesforce.com/sfc/dist/version/renditionDownload?rendition=ORIGINAL_Png&versionId=068WU0000054ulW&operationContext=DELIVERY&contentId=05TWU000005gall&page=0&d=/a/WU0000002ZmT/HikcNK7uZlCY4asZX15pnsH6Kg5ttWlJhz7El6SLJpY&oid=00DWU00000B7kZJ&dpt=null&viewId=" alt="My Website Logo" class="logo-image">
+            </a>
+        </div>
+        
+        <div class="menu-icon" onclick={toggleMenu}></div>
+
+        <nav class="nav-links hidden">
+            <a href="https://gruslabs6-dev-ed.develop.my.site.com/grusdelights/#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+
+        <div class="icons">
+            <a href="#" class="icon cart-icon" onclick={openCartModal}>🛒 ({cartItems.length})</a>
+
+            <template if:true={isLoggedIn}>
+                <div class="profile-container">
+                    <div class="profile-icon" onclick={toggleDropdown}>
+                        👤 {userName}
+                    </div>
+                    <template if:true={isDropdownOpen}>
+                        <div class="dropdown">
+                            <a href="/last-orders" class="dropdown-item">Orders Details</a>
+                            <button class="dropdown-item slds-button slds-button_neutral" onclick={handleLogout}>Logout</button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template if:false={isLoggedIn}>
+                <a href="https://gruslabs6-dev-ed.develop.my.site.com/grusdelights/login" class="icon profile-icon">👤 Login</a>
+            </template>
+        </div>
+    </header>
+
+    <!-- Cart Modal -->
+    <template if:true={isCartModalOpen}>
+        <section class="cart-modal">
+            <div class="cart-modal-content">
+                <h2 class="cart-modal-title">Cart Summary</h2>
+
+                <template if:true={cartItems.length}>
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={cartItems} for:item="item">
+                                <tr key={item.Id}>
+                                    <td>
+                                        <div class="cartImage" data-id={item.Id} lwc:dom="manual"></div>
+                                    </td>
+                                    <td>{item.Name}</td>
+                                    <td>₹{item.abhisheksf__Price__c}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>₹{item.totalPrice}</td>
+                                    <td>
+                                        <button class="slds-button slds-button_destructive" data-id={item.Id} onclick={handleRemoveFromCart}>
+                                            Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <div class="cart-total">
+                        <strong>Total Amount:</strong> ₹{cartTotal}
+                    </div>
+                </template>
+
+                <template if:false={cartItems.length}>
+                    <p>Your cart is empty.</p>
+                </template>
+
+                <button class="slds-button slds-button_neutral close-cart-btn" onclick={closeCartModal}>Close</button>
+
+                <!-- Conditionally show checkout button only when cart has items -->
+                <template if:true={cartItems.length}>
+                    <button class="slds-button slds-button_brand checkout-btn" onclick={openCheckoutForm}>Checkout</button>
+                </template>
+            </div>
+        </section>
+    </template>
+
+    <!-- Checkout Form -->
+    <template if:true={isCheckoutFormOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeCheckoutForm}>
+                        <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Checkout</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input 
+                        name="notes" 
+                        label="Notes" 
+                        value={notes} 
+                        onchange={handleInputChange}>
+                    </lightning-input>
+
+                    <lightning-input 
+                        name="phone" 
+                        label="Phone" 
+                        value={phone} 
+                        onchange={handleInputChange}>
+                    </lightning-input>
+
+                 
+                    <!-- Contact ID & Order Date (auto-filled) -->
+     
+                <lightning-input name="street" label="Street" value={street} onchange={handleInputChange}></lightning-input>
+                <lightning-input name="city" label="City" value={city} onchange={handleInputChange}></lightning-input>
+               
+                <lightning-input name="postalCode" label="Postal Code" value={postalCode} onchange={handleInputChange}></lightning-input>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeCheckoutForm}></lightning-button>
+                    <lightning-button variant="brand" label="Submit Order" onclick={handleSubmit}></lightning-button>
+                </div>
+            </div>
+        </section>
+        
+    </template>
+
+</template>
+
