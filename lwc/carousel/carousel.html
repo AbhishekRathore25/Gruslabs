@@ -1,0 +1,12 @@
+<template>
+    <div class="carousel-container">
+        <template for:each={images} for:item="image">
+            <div key={image.id} class={image.activeClass}>
+                <img src={image.url} alt={image.caption} class="carousel-image" />
+                <div class="carousel-caption">
+                    <p>{image.caption}</p>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

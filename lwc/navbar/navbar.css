@@ -1,0 +1,335 @@
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: #333;
+    color: white;
+}
+
+.logo-image {
+    height: 50px;
+}
+
+.nav-links, .icons {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a, .icon {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover, .dropdown-item:hover, .close-cart-btn:hover {
+    color: #4CAF50;
+}
+
+.menu-icon {
+    display: none;
+    flex-direction: column;
+    gap: 0.3rem;
+    cursor: pointer;
+}
+
+.menu-icon span {
+    background-color: white;
+    height: 3px;
+    width: 25px;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links.hidden {
+        display: none;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        position: absolute;
+        top: 4rem;
+        right: 1rem;
+        background-color: #5dbea3;
+        width: 60%;
+        padding: 1rem;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-icon {
+        display: flex;
+    }
+}
+
+/* Dropdown Styling */
+.dropdown {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    right: 0;
+    margin-top: 10px;
+    z-index: 1000;
+    width: 150px;
+    padding: 10px 0;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    font-size: 0.9rem;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Checkout Form Modal */
+.checkout-form-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Dark overlay background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100; /* Ensure it is above other modals */
+    overflow: hidden; /* Hide overflow to ensure the modal stays within screen bounds */
+}
+
+.checkout-form-content {
+ position: fixed;
+    z-index: 1000;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+
+
+.checkout-form-title {
+    font-size: 1.75em; /* Larger font size for the title */
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.close-checkout-btn {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    background-color: #d9d9d9;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .checkout-form-content {
+        width: 90%; /* Slightly reduced width for mobile responsiveness */
+        max-width: 100%; /* Ensures it doesn’t exceed the screen */
+        height: 90%; /* Ensures modal content is smaller and responsive on mobile */
+        padding: 15px;
+    }
+}
+
+/* Dropdown Item Hover */
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+    color: #4CAF50;
+    border-radius: 5px;
+}
+
+.profile-icon {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    position: relative;
+}
+
+/* Dropdown Arrow Indicator */
+.profile-icon::after {
+    content: " ▼";
+    font-size: 0.8rem;
+    color: white;
+    margin-left: 5px;
+}
+
+/* Cart Modal */
+.cart-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.cart-modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.cart-table th, .cart-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.cart-total {
+    text-align: right;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.close-cart-btn {
+    margin-top: 1rem;
+    background-color: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-cart-btn:hover {
+    background-color: #555;
+}
+
+.cartImage {
+    height: 80px;
+    width: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Smooth opening effect for the dropdown */
+.dropdown {
+    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.profile-container:hover .dropdown {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Navbar Button Styling */
+.slds-button_icon-inverse {
+    color: white;
+}
+
+/* Styling for the checkout form background color and font-size */
+
+
+.slds-modal__header {
+    background: #333333; /* Darker header */
+    padding: 1.25rem;
+    border-bottom: 1px solid #d8dde6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.slds-modal__header h2 {
+    font-size: 1.75rem; /* Larger font size */
+    font-weight: 700;
+    color: #ffffff; /* White text for contrast */
+    margin: 0;
+}
+
+.slds-button_icon {
+    color: #ffffff; /* White close button */
+}
+
+.slds-modal__content {
+    padding: 1.5rem;
+}
+
+.lightning-input {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.lightning-input label {
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.25rem;
+    display: inline-block;
+}
+
+.lightning-input input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.slds-button {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.slds-button_neutral {
+    background: #e0e7ff; /* Soft, complementary color */
+    color: #333;
+    border: 1px solid #d8dde6;
+}
+
+.slds-button_neutral:hover {
+    background: #c7d2fe; /* Slightly darker on hover */
+}
+
+.slds-button_brand {
+    background: #0070d2; /* Brand color */
+    color: #fff;
+    border: none;
+}
+
+.slds-button_brand:hover {
+    background: #005fb2;
+}
+
+.slds-fade-in-open {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
