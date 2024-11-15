@@ -211,6 +211,10 @@
     font-weight: bold;
     color: #4CAF50;
 }
+.discounted-total{
+     font-weight: bold;
+    color: #4CAF50;
+}
 
 .close-cart-btn {
     margin-top: 1rem;
