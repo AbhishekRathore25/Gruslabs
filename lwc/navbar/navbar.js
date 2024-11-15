@@ -5,6 +5,7 @@ import USER_ID from '@salesforce/user/Id';
 import CART_MESSAGE_CHANNEL from '@salesforce/messageChannel/cartMessageChannel__c';
 import createOrder from '@salesforce/apex/ProductController.createOrder';
 import createOrderLineItems from '@salesforce/apex/ProductController.createOrderLineItems';
+import LightningAlert from 'lightning/alert';
 
 export default class NavbarWithCart extends LightningElement {
     @track cartItems = [];
@@ -22,6 +23,10 @@ export default class NavbarWithCart extends LightningElement {
     @track postalCode = '';
     @track contactId = USER_ID;
     @track currentDate = new Date().toISOString().split('T')[0];
+   discountCode = '';
+    discountPercentage = 0;
+    cartTotal = 100; // Example cart total
+    discountedTotal = 0;
 
     @wire(MessageContext) messageContext;
 
@@ -47,6 +52,31 @@ export default class NavbarWithCart extends LightningElement {
             this.updateCartTotal();
         });
     }
+ applyDiscount() {
+        if (this.discountCode === 'GRUS10') {
+            this.discountPercentage = 10;
+        } else if (this.discountCode === 'GRUS20') {
+            this.discountPercentage = 20;
+        } else {
+            this.discountPercentage = 0;
+            
+         LightningAlert.open({
+                message: 'The discount code you entered is invalid. Please try again.',
+                theme: 'error', // Display as an error
+                label: 'Invalid Discount Code' // Header for the alert
+            });
+           
+        }
+
+        // Calculate the discounted total
+        this.discountedTotal = this.cartTotal * (1 - this.discountPercentage / 100);
+    }
+
+    handleDiscountCodeChange(event) {
+        this.discountCode = event.target.value;
+    }
+
+    
 
     updateCartTotal() {
         this.cartTotal = this.cartItems.reduce((total, item) => total + item.totalPrice, 0);
@@ -88,56 +118,70 @@ export default class NavbarWithCart extends LightningElement {
         }
     }
 
-    handleSubmit() {
-        if (this.cartItems.length === 0) {
-            this.handleAlert('Your cart is empty. Please add items before placing an order.');
-            return;
-        }
-    
-        if (this.phone && (this.city || this.street) && this.cartTotal > 0) {
-            if (window.confirm('Are you sure you want to place this order?')) {
-                createOrder({
-                    notes: this.notes,
-                    phone: this.phone,
-                    totalAmount: this.cartTotal,
-                    orderDate: this.currentDate,
-                    city: this.city,
-                    street: this.street,
-                    postalCode: this.postalCode
-                })
-                .then(orderId => {
-                    this.handleAlert('Order created successfully! Your order ID is ' + orderId);
-                    
-                    // Map cart items to line items, ensuring we access properties correctly
-                    const cartItemsForLineItems = this.cartItems.map(item => {
-                        // Access properties directly without worrying about Proxy
-                        return {
-                            productId: item.Id,
-                            unitPrice: item.abhisheksf__Price__c,
-                            quantity: item.quantity
-                        };
-                    });
-    
-                    console.log('Mapped Cart Items:', cartItemsForLineItems); // Log for debugging
-                    
-                    // Proceed with creating order line items
-                    return createOrderLineItems({ orderId: orderId, cartItems: cartItemsForLineItems });
-                })
-                .then(() => {
-                    this.handleAlert('Order line items created successfully!');
-                    this.clearCart();
-                    this.closeCheckoutForm();
-                })
-                .catch(error => {
-                    // Log the error without affecting the flow
-                    console.error("Error:", error);  
-                    this.handleAlert('Error creating order: ' + error.body.message);
-                });
-            }
-        } else {
-            this.handleAlert('Error: Please fill at least the phone number and either the city or street.');
-        }
+  async handleSubmit() {
+    if (this.cartItems.length === 0) {
+        await LightningAlert.open({
+            message: 'Your cart is empty. Please add items before placing an order.',
+            theme: 'error',
+            label: 'Empty Cart'
+        });
+        return;
     }
+
+    if (this.phone && (this.city || this.street) && this.cartTotal > 0) {
+        const totalAmount = this.discountPercentage > 0 ? this.discountedTotal : this.cartTotal;
+
+        createOrder({
+            notes: this.notes,
+            phone: this.phone,
+            totalAmount: totalAmount,
+            orderDate: this.currentDate,
+            city: this.city,
+            street: this.street,
+            postalCode: this.postalCode
+        })
+            .then(orderId => {
+                return LightningAlert.open({
+                    message: 'Order created successfully! Your order ID is ' + orderId,
+                    theme: 'success',
+                    label: 'Order Created'
+                }).then(() => orderId); // Pass orderId for the next chain in promise
+            })
+            .then(orderId => {
+                const cartItemsForLineItems = this.cartItems.map(item => ({
+                    productId: item.Id,
+                    unitPrice: item.abhisheksf__Price__c,
+                    quantity: item.quantity
+                }));
+                
+                console.log('Mapped Cart Items:', cartItemsForLineItems);
+
+                return createOrderLineItems({ orderId: orderId, cartItems: cartItemsForLineItems });
+            })
+            .then(() => {
+                
+                      this.clearCart();
+                    this.closeCheckoutForm();
+                    this.closeCartModal();
+                   window.location.reload();
+            })
+            .catch(error => {
+                console.error("Error:", error);  
+                LightningAlert.open({
+                    message: 'Error creating order: ' + error.body.message,
+                    theme: 'error',
+                    label: 'Order Creation Error'
+                });
+            });
+    } else {
+        LightningAlert.open({
+            message: 'Error: Please fill at least the phone number and either the city or street.',
+            theme: 'error',
+            label: 'Please Fill Required Fields'
+        });
+    }
+}
+
 
     toggleDropdown() {
         this.isDropdownOpen = !this.isDropdownOpen;
