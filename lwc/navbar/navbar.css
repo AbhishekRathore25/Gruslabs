@@ -238,12 +238,7 @@
 }
 
 /* Smooth opening effect for the dropdown */
-.dropdown {
-    display: none;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
+
 
 .profile-container:hover .dropdown {
     display: block;
